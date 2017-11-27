@@ -15,6 +15,7 @@ com/hengaiw/pub/utils/HaJsonFormat.class
 com/hengaiw/pub/utils/HaSerial.class
 com/hengaiw/pub/utils/IPUtility.class
 com/hengaiw/pub/constant/PayConstants.class
+com/hengaiw/pub/constant/PayConstants$AlipayConstant.class
 com/hengaiw/pub/utils/HttpClient$1.class
 com/hengaiw/pub/constant/PayReturnCodeEnum.class
 com/hengaiw/pub/utils/HttpClient.class

@@ -1,3 +1,4 @@
+com/hengaiw/pay/controller/PayNotifyBase.class
 com/hengaiw/pay/wx/config/WXPayDomainSimpleImpl$WxpayDomainHolder.class
 com/hengaiw/pay/wx/sdk/WXPay.class
 com/hengaiw/pay/wx/sdk/WXPayRequest.class
@@ -10,8 +11,10 @@ com/hengaiw/pay/wx/sdk/IWXPayDomain$DomainInfo.class
 com/hengaiw/pay/wx/sdk/WxNotifyRes.class
 com/hengaiw/pay/wx/sdk/WXPayConstants$SignType.class
 com/hengaiw/pay/wx/sdk/WXPayUtil.class
+com/hengaiw/pay/controller/PayWxNotifyController.class
 com/hengaiw/pay/wx/sdk/WXPayReport$3.class
 com/hengaiw/pay/wx/sdk/WXPayConfig.class
+com/hengaiw/pay/controller/PayWxServiceController.class
 com/hengaiw/pay/wx/config/WXPayDomainSimpleImpl.class
 com/hengaiw/pay/wx/config/WXPayDomainSimpleImpl$DomainStatics.class
 com/hengaiw/pay/wx/sdk/WXPayReport.class

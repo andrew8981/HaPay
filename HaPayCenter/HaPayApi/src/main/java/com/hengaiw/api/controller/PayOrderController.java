@@ -3,6 +3,7 @@ package com.hengaiw.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hengaiw.api.serviceclient.PayWxServiceClient;
+import com.hengaiw.api.serviceclient.PayAlipayServiceClient;
 import com.hengaiw.api.serviceclient.PayBaseServiceClient;
 import com.hengaiw.pub.constant.PayConstants;
 import com.hengaiw.pub.utils.HaJsonFormat;
@@ -29,7 +30,8 @@ public class PayOrderController extends PayBaseController{
 	@Autowired
 	private PayWxServiceClient payWxServiceClient;
 	
-	
+	@Autowired
+	private PayAlipayServiceClient payAlipayServiceClient;
 
 	/**
 	 * 统一下单接口: 1)先验证接口参数以及签名信息 2)验证通过创建支付订单 3)根据商户选择渠道,调用支付服务进行下单 4)返回下单数据
@@ -73,10 +75,12 @@ public class PayOrderController extends PayBaseController{
 			_log.info("请求支付渠道,ID:{}", channelId);
 			switch (channelId) {
 
-			case PayConstants.PAY_CHANNEL_WX_JSAPI:
+			case PayConstants.PAY_CHANNEL_WX_JSAPI://微信的JSAPI支付
 				return payWxServiceClient
 						.doWxUnifiedOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "payOrder" },
 								new Object[] { PayConstants.PAY_CHANNEL_WX_JSAPI, payOrder }));
+			case PayConstants.PAY_CHANNEL_ALIPAY_WAP:
+				return  payAlipayServiceClient.doAlipayWapReq(HaPayUtil.makeParamJson("payOrder", payOrder));
 			default:
 				return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL,
 						"不支持的支付渠道类型[channelId=" + channelId + "]", null, null));
@@ -158,10 +162,7 @@ public class PayOrderController extends PayBaseController{
 				errorMessage = "request params[extra.openId] error.";
 				return errorMessage;
 			}
-			break;
-		default:
-			return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL,
-					"不支持的支付渠道类型[channelId=" + channelId + "]", null, null));
+			
 		}
 		
 		// 签名信息

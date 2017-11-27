@@ -1,5 +1,7 @@
 package com.hengaiw.pub.constant;
 
+import java.io.File;
+
 /**
  * @Description: 支付常量类
  */
@@ -45,5 +47,12 @@ public class PayConstants {
 		public final static String TRADE_TYPE_NATIVE = "NATIVE"; // 原生扫码支付
 		public final static String TRADE_TYPE_MWEB = "MWEB"; // H5支付
 
+	}
+	public static class AlipayConstant {
+		public final static String CONFIG_PATH = "alipay" + File.separator + "alipay"; // 支付宝移动支付
+		public final static String TRADE_STATUS_WAIT = "WAIT_BUYER_PAY"; // 交易创建,等待买家付款
+		public final static String TRADE_STATUS_CLOSED = "TRADE_CLOSED"; // 交易关闭
+		public final static String TRADE_STATUS_SUCCESS = "TRADE_SUCCESS"; // 交易成功
+		public final static String TRADE_STATUS_FINISHED = "TRADE_FINISHED"; // 交易成功且结束
 	}
 }

@@ -18,7 +18,26 @@ import java.util.Set;
 public class HaPayUtil {
 
 	private static final HaLog _log = HaLog.getLog(HaPayUtil.class);
-
+	/**
+	 * 返回json串
+	 * @param names
+	 * @param values
+	 * @return
+	 */
+	public static String makeParamJson(String[] names, Object[] values) {
+		JSONObject jsonParam = new JSONObject();
+        for (int i = 0; i < names.length; i++) {
+            jsonParam.put(names[i], values[i]);
+        }
+        return jsonParam.toJSONString();
+	}
+	
+	public static String makeParamJson(String names, Object values) {
+		JSONObject jsonParam = new JSONObject();
+		jsonParam.put(names, values);
+        return jsonParam.toJSONString();
+	}
+	
 	public static Map<String, Object> makeRetMap(String retCode, String retMsg, String resCode, String errCode,
 			String errCodeDesc) {
 		Map<String, Object> retMap = new HashMap<String, Object>();

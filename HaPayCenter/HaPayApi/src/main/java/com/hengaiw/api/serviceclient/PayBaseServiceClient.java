@@ -20,7 +20,7 @@ public class PayBaseServiceClient {
      */
     @HystrixCommand(fallbackMethod = "createPayOrderFallback")
     public String createPayOrder(String jsonParam) {
-        return restTemplate.getForEntity("http://PAYBASESERVICE/order/create?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/order/create?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
     public String createPayOrderFallback(String jsonParam) {
@@ -34,7 +34,7 @@ public class PayBaseServiceClient {
      */
     @HystrixCommand(fallbackMethod = "queryPayOrderFallback")
     public String queryPayOrder(String jsonParam) {
-        return restTemplate.getForEntity("http://PAYBASESERVICE/order/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/order/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
     public String queryPayOrderFallback(String jsonParam) {
@@ -47,7 +47,7 @@ public class PayBaseServiceClient {
      */
     @HystrixCommand(fallbackMethod = "selectMchInfoFallback")
     public String selectMchInfo(String jsonParam) {
-        return restTemplate.getForEntity("http://PAYBASESERVICE/mchInfo/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/mchInfo/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
     
@@ -62,7 +62,7 @@ public class PayBaseServiceClient {
      */
     @HystrixCommand(fallbackMethod = "selectPayChannelFallback")
     public String selectPayChannel(String jsonParam) {
-        return restTemplate.getForEntity("http://PAYBASESERVICE/payChannel/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/payChannel/select?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
     public String selectPayChannelFallback(String jsonParam) {

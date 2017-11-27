@@ -19,7 +19,7 @@ public class PayWxServiceClient {
      */
     @HystrixCommand(fallbackMethod = "doWxUnifiedOrderReqFallback")
     public String doWxUnifiedOrderReq(String jsonParam) {
-        return restTemplate.getForEntity("http://PAYWXSERVICE/pay/wx/unifiedOrder?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/unifiedOrder?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
     public String doWxUnifiedOrderReqFallback(String jsonParam) {
