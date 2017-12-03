@@ -52,7 +52,7 @@ public class PayWxNotifyController extends PayNotifyBase {
 	 * @return
 	 * @throws Exception 
      */
-	@RequestMapping("/pay/wxPayNotifyRes.htm")
+	@RequestMapping("/notify/wx/payNotifyRes.htm")
 	@ResponseBody
 	public String wxPayNotifyRes(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		//return certRootPath;

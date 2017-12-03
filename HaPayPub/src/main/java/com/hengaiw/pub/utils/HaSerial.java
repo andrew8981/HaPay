@@ -8,10 +8,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class HaSerial {
 
 	private static AtomicLong pay_seq = new AtomicLong(0L);
-	private static String pay_seq_prefix = "H";
+	private static String pay_seq_prefix = "P";
 	private static AtomicLong trans_seq = new AtomicLong(0L);
-	private static String trans_seq_prefix = "A";
-
+	private static String trans_seq_prefix = "T";
+	private static AtomicLong refund_seq = new AtomicLong(0L);
+	private static String refund_seq_prefix = "R";
 	private static String node = "00";
 	
 
@@ -23,6 +24,10 @@ public class HaSerial {
 		return getSeq(trans_seq_prefix, trans_seq);
 	}
 
+	public static String getRefund() {
+		return getSeq(refund_seq_prefix, refund_seq);
+	}
+	
 	private static String getSeq(String prefix, AtomicLong seq) {
 		prefix += node;
 		return String.format("%s%s%06d", prefix, DateUtils.getCurrentTimeStrDefault(), (int) seq.getAndIncrement() % 1000000);

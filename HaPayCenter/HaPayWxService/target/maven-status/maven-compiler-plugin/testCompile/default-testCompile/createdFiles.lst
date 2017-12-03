@@ -4,6 +4,7 @@ com/hengaiw/test/model/TestModel.class
 com/hengaiw/test/wx/TestWXPayPerformance$2.class
 com/hengaiw/test/wx/WXPayDomainSimpleImpl$WxpayDomainHolder.class
 com/hengaiw/test/wx/TestApacheHttpClient.class
+com/hengaiw/test/TestWx.class
 com/hengaiw/test/wx/TestWXPayReport.class
 com/hengaiw/test/wx/WXPayDomainSimpleImpl.class
 com/hengaiw/test/wx/TestWx.class

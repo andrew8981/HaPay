@@ -81,4 +81,5 @@ public class WXPayConfigImpl extends WXPayConfig{
     public int getReportBatchSize() {
         return 2;
     }
+
 }

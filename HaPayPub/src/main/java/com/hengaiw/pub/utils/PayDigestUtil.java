@@ -172,8 +172,10 @@ public class PayDigestUtil {
 		String result = sb.toString();
 		result += "key=" + key;
 		_log.debug("Sign Before MD5:" + result);
+		_log.info("验签前字符串：{}", result);
 		result = md5(result, encodingCharset).toUpperCase();
 		_log.debug("Sign Result:" + result);
+		_log.info("验签后字符串：{}", result);
 		return result;
 	}
 

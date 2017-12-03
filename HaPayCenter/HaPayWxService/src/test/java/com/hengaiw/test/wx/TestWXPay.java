@@ -16,9 +16,8 @@ public class TestWXPay {
     public TestWXPay() throws Exception {
         config = WXPayConfigImpl.getInstance();
         wxpay = new WXPay(config);
-        total_fee = "1";
-        // out_trade_no = "201701017496748980290321";
         out_trade_no = "201613091059590000003433-asd002";
+        doUnifiedOrder();
     }
 
     /**
@@ -145,7 +144,7 @@ public class TestWXPay {
      */
     public void doDownloadBill() {
         HashMap<String, String> data = new HashMap<String, String>();
-        data.put("bill_date", "20161102");
+        data.put("bill_date", "20171129");
         data.put("bill_type", "ALL");
         try {
             Map<String, String> r = wxpay.downloadBill(data);

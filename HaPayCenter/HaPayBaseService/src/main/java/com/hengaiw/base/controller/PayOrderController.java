@@ -10,7 +10,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hengaiw.model.dao.model.MchInfo;
 import com.hengaiw.model.dao.model.PayOrder;
+import com.hengaiw.model.dao.model.RefundOrder;
 import com.hengaiw.model.service.HaPayOrderService;
+import com.hengaiw.model.service.RefundOrderService;
 import com.hengaiw.pub.constant.PayReturnCodeEnum;
 import com.hengaiw.pub.utils.HaBase64;
 import com.hengaiw.pub.utils.HaLog;
@@ -28,6 +30,8 @@ public class PayOrderController {
 	private final HaLog _log = HaLog.getLog(PayOrderController.class);
 	@Autowired
 	private HaPayOrderService payOrderService;
+	@Autowired
+	private RefundOrderService refundOrderService;
 
 	/**
 	 * 查询订单信息接口
@@ -45,8 +49,8 @@ public class PayOrderController {
 		String payOrderId = paramObj.getString("payOrderId");
 		_log.info("{}查询订单信息，参数param={}",logPre,new String(HaBase64.decode(jsonParam)));
 		PayOrder payOrder = payOrderService.selectPayOrder(payOrderId);
-		_log.info("{}查询商户信息,结果:payOrder={}",logPre,payOrder.toString());
-		if (payOrder!=null) {
+		_log.info("{}查询商户信息,结果:payOrder={}",logPre,JSON.toJSON(payOrder));
+		if (payOrder==null) {
 			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000003);
 		}
 		_log.info("====== 结束查询订单信息请求 ======");
@@ -71,6 +75,35 @@ public class PayOrderController {
 			_log.info("====== 结束添加订单信息请求 ======");
 			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_SUCCESS, JSON.toJSON(result));
 		} catch (Exception e) {
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000001);
+		}
+	}
+	
+	/**
+	 * 创建退款接口
+	 * @param jsonParam
+	 * @return
+	 */
+	@RequestMapping(value = "/refund")
+	public String createRefundOrder(@RequestParam String jsonParam) {
+		String logPre = "【添加退款订单信息】";
+		_log.info("====== 开始添加退款订单信息请求 ======");
+		if (StringUtils.isBlank(jsonParam)) {
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000002);
+		}
+		try {
+			_log.info("{}添加退款订单参数{}",logPre,new String(HaBase64.decode(jsonParam)));
+			RefundOrder refundOrder = JSON.parseObject(new String(HaBase64.decode(jsonParam)), RefundOrder.class);
+			PayOrder payOrder=payOrderService.selectPayOrder(refundOrder.getPayOrderId());
+			refundOrder.setPayAmount(payOrder.getAmount());
+			refundOrder.setChannelOrderNo(payOrder.getChannelOrderNo());
+			refundOrder.setStatus((byte) 2);
+			_log.info("{}添加退款商户号参数{}",logPre,refundOrder.getMchId());
+			int result = refundOrderService.createRefundOrder(refundOrder);
+			_log.info("====== 结束添加订单信息请求 ======");
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_SUCCESS, JSON.toJSON(result));
+		} catch (Exception e) {
+			_log.error(e.getMessage());
 			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000001);
 		}
 	}

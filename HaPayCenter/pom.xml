@@ -78,7 +78,8 @@
     	<module>HaPayBaseService</module>
     	<module>HaPayGateWay</module>
     	<module>HaPayWxService</module>
-
     	<module>HaPayAlipayService</module>
+    	<module>HaPayEcoService</module>
+    	<module>HaPayAdmin</module>
     </modules>
 </project>

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 @EnableDiscoveryClient
 @SpringBootApplication
 @PropertySource({    
-	"file:./config/db.properties", //数据库配置
+	"file:./config/db.properties" //数据库配置
 })    
 public class PayWxService {
 	public static void main(String[] args) {

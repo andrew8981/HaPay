@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import com.alibaba.fastjson.JSON;
@@ -18,6 +19,7 @@ public class HaWxConfigImpl extends WXPayConfig {
 	private byte[] certData;
 	private String appId;
 	private String mchId;
+	private String subMchId;
 	private String key;
 
 	private static HaWxConfigImpl INSTANCE;
@@ -28,6 +30,7 @@ public class HaWxConfigImpl extends WXPayConfig {
 		JSONObject paramObj = JSON.parseObject(configParam);
 		this.appId = paramObj.getString("appId");
 		this.mchId = paramObj.getString("mchId");
+		this.setSubMchId(paramObj.getString("subMchId"));
 		this.key = paramObj.getString("key");
 		this.certName = paramObj.getString("certName");
 		String certPath = certRootPath + certName;
@@ -106,5 +109,14 @@ public class HaWxConfigImpl extends WXPayConfig {
 	public int getReportBatchSize() {
 		return 2;
 	}
+
+	public String getSubMchId() {
+		return subMchId;
+	}
+
+	public void setSubMchId(String subMchId) {
+		this.subMchId = subMchId;
+	}
+
 
 }

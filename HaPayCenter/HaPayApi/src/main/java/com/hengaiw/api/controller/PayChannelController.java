@@ -2,6 +2,8 @@ package com.hengaiw.api.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hengaiw.api.serviceclient.PayBaseServiceClient;
+import com.hengaiw.api.util.IPUtility;
 import com.hengaiw.pub.constant.PayConstants;
 import com.hengaiw.pub.constant.PayReturnCodeEnum;
 import com.hengaiw.pub.utils.HaJsonFormat;
@@ -30,10 +33,10 @@ import com.hengaiw.pub.utils.HaPayUtil;
 public class PayChannelController extends PayBaseController{
 
 	@RequestMapping(value = "/select")
-	public String selectPayChannel(@RequestParam String params) {
+	public String selectPayChannel(@RequestParam String params,HttpServletRequest request) {
 		String logPrefix = "【查询通道信息】";
 		ServiceInstance instance = client.getLocalServiceInstance();
-		_log.info("{}/pay/channel/select, host:{}, service_id:{}, params:{}", logPrefix, instance.getHost(),
+		_log.info("{}/pay/channel/select, host:{},ip:{}, service_id:{}, params:{}", logPrefix, instance.getHost(),IPUtility.getIpAddr(request),
 				instance.getServiceId(), params);
 		// 校验请求参数是否合法
 		JSONObject paramObj = JSONObject.parseObject(params);

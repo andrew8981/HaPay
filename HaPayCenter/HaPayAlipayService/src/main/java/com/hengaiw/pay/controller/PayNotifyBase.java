@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hengaiw.model.dao.model.MchInfo;
 import com.hengaiw.model.dao.model.PayOrder;
 import com.hengaiw.model.service.MchInfoService;
+import com.hengaiw.pay.mq.Mq4PayNotify;
 import com.hengaiw.pub.constant.PayConstants;
 import com.hengaiw.pub.utils.HaLog;
 import com.hengaiw.pub.utils.HaPayUtil;
@@ -29,8 +30,8 @@ public class PayNotifyBase {
 
 	private static final HaLog _log = HaLog.getLog(PayNotifyBase.class);
 
-	//@Autowired
-	//private Mq4PayNotify mq4PayNotify;
+	@Autowired
+	private Mq4PayNotify mq4PayNotify;
 
 	@Autowired
 	private MchInfoService mchInfoService;
@@ -107,6 +108,7 @@ public class PayNotifyBase {
 			/**
 			 * 此处编写通知给商户的代码，可选方案多种，可以使用消息中间件。也可以直接对商户提交的消息接收地址发送。
 			 */
+			mq4PayNotify.send(object.toJSONString());
 		} catch (Exception e) {
 			_log.error("payOrderId={},sendMessage error.", payOrder != null ? payOrder.getPayOrderId() : "", e);
 		}

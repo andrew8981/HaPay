@@ -20,6 +20,7 @@ public class PayBaseController {
 	public PayBaseServiceClient payBaseServiceClient;
 	public JSONObject mchInfo;
 	public JSONObject payChannel;
+	public JSONObject payOrder;
 
 	/**
 	 * 检查商户信息和验证提交的数据是否正确，正确返回商户信息，否则返回错误信息
@@ -96,5 +97,37 @@ public class PayBaseController {
 			return errorMessage;
 		}
 		return payChannel;
+	}
+	/**
+	 * 检查原支付订单信息是否正确，正确返回订单信息，否则返回错误信息
+	 
+	 * @return
+	 */
+	public Object validatePayOrderParams(JSONObject params) {
+		String errorMessage = "";
+		String mchId = params.getString("mchId");
+		String PayOrderId = params.getString("PayOrderId");
+		//String RefundAmount = params.getString("RefundAmount");
+		// 查询支付订单
+		String retStr = payBaseServiceClient.queryPayOrder(
+				HaJsonFormat.getJsonParam("payOrderId", PayOrderId));
+		_log.info("查询订单返回数据,retStr={}", retStr);
+		JSONObject retObj = JSON.parseObject(retStr);
+		if (PayReturnCodeEnum.PAY_SUCCESS.getCode().equals(retObj.getString("retCode"))) {
+			payOrder = JSON.parseObject(retObj.getString("result"));
+			if (payOrder == null) {
+				errorMessage = "Can't found payOrder[PayOrderId=" + PayOrderId + "] record in db.";
+				return errorMessage;
+			}
+			if(!payOrder.get("mchId").equals(mchId)) {
+				errorMessage = "商户跟订单号没有对应操作权限 [PayOrderId=" + PayOrderId + "] record in db.";
+				return errorMessage;
+			}
+		} else {
+			errorMessage = "Can't found payChannel[PayOrderId=" + PayOrderId + "] record in db.";
+			_log.info("查询订单没有正常返回数据,code={},msg={}", retObj.getString("code"), retObj.getString("msg"));
+			return errorMessage;
+		}
+		return payOrder;
 	}
 }

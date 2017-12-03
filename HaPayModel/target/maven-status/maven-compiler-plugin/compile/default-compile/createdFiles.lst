@@ -1,3 +1,5 @@
+com/hengaiw/model/service/RefundOrderService.class
+com/hengaiw/model/dao/model/WxBill.class
 com/hengaiw/model/dao/model/PayChannelExample$Criterion.class
 com/hengaiw/model/dao/model/TransOrderExample$Criterion.class
 com/hengaiw/model/dao/model/RefundOrderExample$Criterion.class
@@ -7,13 +9,17 @@ com/hengaiw/model/dao/model/PayOrderExample$Criteria.class
 com/hengaiw/model/dao/model/GoodsOrderExample.class
 com/hengaiw/model/dao/mapper/PayOrderMapper.class
 com/hengaiw/model/dao/model/PayOrderExample$Criterion.class
+com/hengaiw/model/dao/mapper/WxBillDayMapper.class
 com/hengaiw/model/service/EnvironmentPropertiesService.class
+com/hengaiw/model/dao/model/WxBillDayExample.class
 com/hengaiw/model/dao/plugin/SerializablePlugin.class
 com/hengaiw/model/dao/model/TransOrderExample$GeneratedCriteria.class
 com/hengaiw/model/dao/model/PayChannelExample.class
 com/hengaiw/model/service/PayChannelService.class
 com/hengaiw/model/dao/model/IapReceipt.class
+com/hengaiw/model/dao/model/WxBillExample$GeneratedCriteria.class
 com/hengaiw/model/dao/model/TransOrder.class
+com/hengaiw/model/dao/model/WxBillDay.class
 com/hengaiw/model/dao/model/PayChannelExample$Criteria.class
 com/hengaiw/model/dao/plugin/DruidDataSourceConfig.class
 com/hengaiw/model/dao/model/IapReceiptExample.class
@@ -25,7 +31,9 @@ com/hengaiw/model/dao/model/PayChannel.class
 com/hengaiw/model/dao/plugin/PageModel.class
 com/hengaiw/model/dao/mapper/GoodsOrderMapper.class
 com/hengaiw/model/dao/mapper/RefundOrderMapper.class
+com/hengaiw/model/dao/model/WxBillDayExample$Criterion.class
 com/hengaiw/model/dao/model/MchNotifyExample$GeneratedCriteria.class
+com/hengaiw/model/dao/model/WxBillExample$Criterion.class
 com/hengaiw/model/dao/model/CloudConfigExample$Criterion.class
 com/hengaiw/model/dao/model/PayOrderExample.class
 com/hengaiw/model/dao/model/MchNotify.class
@@ -34,6 +42,7 @@ com/hengaiw/model/dao/model/PayOrderExample$GeneratedCriteria.class
 com/hengaiw/model/dao/model/MchInfoExample$Criterion.class
 com/hengaiw/model/dao/model/GoodsOrderExample$Criterion.class
 com/hengaiw/model/dao/model/CloudConfigExample$Criteria.class
+com/hengaiw/model/service/WxBIllService.class
 com/hengaiw/model/dao/model/GoodsOrderExample$GeneratedCriteria.class
 com/hengaiw/model/dao/mapper/MchNotifyMapper.class
 com/hengaiw/model/dao/model/MchInfoExample.class
@@ -41,8 +50,10 @@ com/hengaiw/model/dao/model/TransOrderExample$Criteria.class
 com/hengaiw/model/dao/model/RefundOrderExample$Criteria.class
 com/hengaiw/model/dao/model/GoodsOrderExample$Criteria.class
 com/hengaiw/model/service/HaPayOrderService.class
+com/hengaiw/model/dao/model/WxBillExample.class
 com/hengaiw/model/dao/model/MchInfoExample$GeneratedCriteria.class
 com/hengaiw/model/dao/mapper/PayChannelMapper.class
+com/hengaiw/model/dao/model/WxBillDayExample$Criteria.class
 com/hengaiw/model/dao/mapper/TransOrderMapper.class
 com/hengaiw/model/dao/model/MchNotifyExample.class
 com/hengaiw/model/dao/model/RefundOrderExample$GeneratedCriteria.class
@@ -56,8 +67,12 @@ com/hengaiw/model/dao/model/GoodsOrder.class
 com/hengaiw/model/dao/model/RefundOrderExample.class
 com/hengaiw/model/dao/model/IapReceiptExample$GeneratedCriteria.class
 com/hengaiw/model/dao/model/TransOrderExample.class
+com/hengaiw/model/dao/model/WxBillExample$Criteria.class
 com/hengaiw/model/dao/model/CloudConfigExample$GeneratedCriteria.class
 com/hengaiw/model/dao/mapper/IapReceiptMapper.class
 com/hengaiw/model/dao/model/MchInfoExample$Criteria.class
+com/hengaiw/model/dao/model/WxBillDayExample$GeneratedCriteria.class
+com/hengaiw/model/service/WxBIllDayService.class
 com/hengaiw/model/dao/model/IapReceiptExample$Criteria.class
+com/hengaiw/model/dao/mapper/WxBillMapper.class
 com/hengaiw/model/dao/plugin/CommentGenerator.class

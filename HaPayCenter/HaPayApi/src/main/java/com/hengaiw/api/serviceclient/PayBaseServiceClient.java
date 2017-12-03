@@ -40,6 +40,24 @@ public class PayBaseServiceClient {
     public String queryPayOrderFallback(String jsonParam) {
         return "error";
     }
+    
+    
+    /**
+     * 创建退款订单
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "createRefundOrderFallback")
+    public String createRefundOrder(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/order/refund?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String createRefundOrderFallback(String jsonParam) {
+        return "error";
+    }
+
+    
+    
     /**
      * 查询商户信息
      * @param jsonParam

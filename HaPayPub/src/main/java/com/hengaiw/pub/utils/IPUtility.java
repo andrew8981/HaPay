@@ -74,6 +74,7 @@ public class IPUtility {
 		return ip;
 	}
 
+	
 	public static void main(String[] args) throws Exception {
 		System.out.println(IPUtility.getLocalIP());
 	}

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @PropertySource({    
 	"file:./config/db.properties", //数据库配置
+	"file:./config/mq.yml"
 })    
 public class HaPayAlipayService {
 	public static void main(String[] args) {

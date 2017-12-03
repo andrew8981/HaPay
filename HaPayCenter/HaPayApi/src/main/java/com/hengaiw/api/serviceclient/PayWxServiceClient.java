@@ -25,4 +25,31 @@ public class PayWxServiceClient {
     public String doWxUnifiedOrderReqFallback(String jsonParam) {
         return "error";
     }
+    /**
+     * 处理微信退款
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doWxRefundOrderReqFallback")
+    public String doWxRefundOrderReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/refundOrder?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doWxRefundOrderReqFallback(String jsonParam) {
+        return "error";
+    }
+
+    /**
+     * 获取对帐单
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doWxBillReqFallback")
+    public String doWxBillReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/bill?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doWxBillReqFallback(String jsonParam) {
+        return "error";
+    }
 }

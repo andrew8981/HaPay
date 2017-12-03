@@ -43,16 +43,17 @@
                         password="${generator.jdbc.password}"/>
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="com.hengaiw.model.dao.model" targetProject="ha-Model/src/main/java"/>
+        <javaModelGenerator targetPackage="com.hengaiw.model.dao.model" targetProject="HaPayModel/src/main/java"/>
 
         <!-- MapperXML生成 -->
-        <sqlMapGenerator targetPackage="com.hengaiw.model.dao.mapper" targetProject="ha-Model/src/main/resources"/>
+        <sqlMapGenerator targetPackage="com.hengaiw.model.dao.mapper" targetProject="HaPayModel/src/main/resources"/>
 
         <!-- Mapper接口生成 -->
-        <javaClientGenerator targetPackage="com.hengaiw.model.dao.mapper" targetProject="ha-Model/src/main/java" type="XMLMAPPER"/>
+        <javaClientGenerator targetPackage="com.hengaiw.model.dao.mapper" targetProject="HaPayModel/src/main/java" type="XMLMAPPER"/>
 
         <!-- 需要映射的表 -->
-        <table tableName="ha_cloud_config" domainObjectName="CloudConfig"><property name="useActualColumnNames" value="true" /></table>
+        <!-- <table tableName="ha_wx_bill" domainObjectName="WxBill"><property name="useActualColumnNames" value="true" /></table> -->
+        <table tableName="ha_wx_bill_day" domainObjectName="WxBillDay"><property name="useActualColumnNames" value="true" /></table>
         <!-- <table tableName="ha_goods_order" domainObjectName="GoodsOrder"><property name="useActualColumnNames" value="true" /></table>
         <table tableName="ha_iap_receipt" domainObjectName="IapReceipt"><property name="useActualColumnNames" value="true" /></table>
         <table tableName="ha_mch_info" domainObjectName="MchInfo"><property name="useActualColumnNames" value="true" /></table>
