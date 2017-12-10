@@ -8,6 +8,7 @@
     <result column="MchId" jdbcType="VARCHAR" property="mchId" />
     <result column="MchRefundNo" jdbcType="VARCHAR" property="mchRefundNo" />
     <result column="ChannelId" jdbcType="VARCHAR" property="channelId" />
+    <result column="ChannelName" jdbcType="VARCHAR" property="channelName" />
     <result column="PayAmount" jdbcType="BIGINT" property="payAmount" />
     <result column="RefundAmount" jdbcType="BIGINT" property="refundAmount" />
     <result column="Currency" jdbcType="VARCHAR" property="currency" />
@@ -90,7 +91,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    RefundOrderId, PayOrderId, ChannelPayOrderNo, MchId, MchRefundNo, ChannelId, PayAmount, 
+    RefundOrderId, PayOrderId, ChannelPayOrderNo, MchId, MchRefundNo, ChannelId,channelName, PayAmount, 
     RefundAmount, Currency, Status, Result, ClientIp, Device, RemarkInfo, ChannelUser, 
     UserName, ChannelMchId, ChannelOrderNo, ChannelErrCode, ChannelErrMsg, Extra, NotifyUrl, 
     Param1, Param2, ExpireTime, RefundSuccTime, CreateTime, UpdateTime
@@ -135,7 +136,7 @@
   </delete>
   <insert id="insert" parameterType="com.hengaiw.model.dao.model.RefundOrder">
     insert into ha_refund_order (RefundOrderId, PayOrderId, ChannelPayOrderNo, 
-      MchId, MchRefundNo, ChannelId, 
+      MchId, MchRefundNo, ChannelId, channelName,
       PayAmount, RefundAmount, Currency, 
       Status, Result, ClientIp, 
       Device, RemarkInfo, ChannelUser, 
@@ -145,7 +146,7 @@
       ExpireTime, RefundSuccTime, CreateTime, 
       UpdateTime)
     values (#{refundOrderId,jdbcType=VARCHAR}, #{payOrderId,jdbcType=VARCHAR}, #{channelPayOrderNo,jdbcType=VARCHAR}, 
-      #{mchId,jdbcType=VARCHAR}, #{mchRefundNo,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
+      #{mchId,jdbcType=VARCHAR}, #{mchRefundNo,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, #{channelName,jdbcType=VARCHAR}, 
       #{payAmount,jdbcType=BIGINT}, #{refundAmount,jdbcType=BIGINT}, #{currency,jdbcType=VARCHAR}, 
       #{status,jdbcType=TINYINT}, #{result,jdbcType=TINYINT}, #{clientIp,jdbcType=VARCHAR}, 
       #{device,jdbcType=VARCHAR}, #{remarkInfo,jdbcType=VARCHAR}, #{channelUser,jdbcType=VARCHAR}, 
@@ -175,6 +176,9 @@
       </if>
       <if test="channelId != null">
         ChannelId,
+      </if>
+      <if test="channelName != null">
+        ChannelName,
       </if>
       <if test="payAmount != null">
         PayAmount,
@@ -261,6 +265,9 @@
       </if>
       <if test="channelId != null">
         #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
       </if>
       <if test="payAmount != null">
         #{payAmount,jdbcType=BIGINT},
@@ -357,6 +364,9 @@
       <if test="record.channelId != null">
         ChannelId = #{record.channelId,jdbcType=VARCHAR},
       </if>
+       <if test="record.channelName != null">
+        ChannelId = #{record.channelName,jdbcType=VARCHAR},
+      </if>
       <if test="record.payAmount != null">
         PayAmount = #{record.payAmount,jdbcType=BIGINT},
       </if>
@@ -436,6 +446,7 @@
       MchId = #{record.mchId,jdbcType=VARCHAR},
       MchRefundNo = #{record.mchRefundNo,jdbcType=VARCHAR},
       ChannelId = #{record.channelId,jdbcType=VARCHAR},
+      ChannelName = #{record.channelName,jdbcType=VARCHAR},
       PayAmount = #{record.payAmount,jdbcType=BIGINT},
       RefundAmount = #{record.refundAmount,jdbcType=BIGINT},
       Currency = #{record.currency,jdbcType=VARCHAR},
@@ -479,6 +490,9 @@
       </if>
       <if test="channelId != null">
         ChannelId = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        ChannelName = #{channelName,jdbcType=VARCHAR},
       </if>
       <if test="payAmount != null">
         PayAmount = #{payAmount,jdbcType=BIGINT},
@@ -556,6 +570,7 @@
       MchId = #{mchId,jdbcType=VARCHAR},
       MchRefundNo = #{mchRefundNo,jdbcType=VARCHAR},
       ChannelId = #{channelId,jdbcType=VARCHAR},
+      ChannelName = #{channelName,jdbcType=VARCHAR},
       PayAmount = #{payAmount,jdbcType=BIGINT},
       RefundAmount = #{refundAmount,jdbcType=BIGINT},
       Currency = #{currency,jdbcType=VARCHAR},

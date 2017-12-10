@@ -4,20 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.hengaiw.api.serviceclient.PayWxServiceClient;
 import com.hengaiw.api.serviceclient.PayAlipayServiceClient;
-import com.hengaiw.api.serviceclient.PayBaseServiceClient;
 import com.hengaiw.pub.constant.PayConstants;
 import com.hengaiw.pub.utils.HaJsonFormat;
-import com.hengaiw.pub.utils.HaLog;
 import com.hengaiw.pub.utils.HaPayUtil;
 import com.hengaiw.pub.utils.HaSerial;
-
-import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,41 +29,6 @@ public class PayOrderController extends PayBaseController {
 
 	@Autowired
 	private PayAlipayServiceClient payAlipayServiceClient;
-
-	/**
-	 * 下载微信的对帐单接口
-	 * 
-	 * @param params
-	 * @return
-	 */
-	@RequestMapping(value = "/wxbill")
-	public String wxbill(@RequestParam String params) {
-		_log.info("###### 开始接收商户请求微信对帐单的请求 ######");
-		String logPrefix = "【商户统一退款】";
-		ServiceInstance instance = client.getLocalServiceInstance();
-		_log.info("{}/pay/order/refund, host:{}, service_id:{}, params:{}", logPrefix, instance.getHost(),
-				instance.getServiceId(), params);
-		try {
-			JSONObject po = JSONObject.parseObject(params);
-			JSONObject wxBillObject = null;
-			// 验证参数有效性
-			Object object = validateWxBillParams(po);
-			if (object instanceof String) {
-				_log.info("{}参数校验不通过:{}", logPrefix, object);
-				return HaPayUtil.makeRetFail(
-						HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, object.toString(), null, null));
-			}
-			if (object instanceof JSONObject)
-				wxBillObject = (JSONObject) object;
-			if (wxBillObject == null)
-				return HaPayUtil
-						.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, "支付中心获取对帐单失败", null, null));
-			return payWxServiceClient.doWxBillReq(wxBillObject.toJSONString());
-		} catch (Exception e) {
-			_log.error(e, "");
-			return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, "支付中心系统异常", null, null));
-		}
-	}
 
 	/**
 	 * 退款接口
@@ -105,18 +65,19 @@ public class PayOrderController extends PayBaseController {
 			if (resObj == null || !"1".equals(resObj.getString("result")))
 				return HaPayUtil
 						.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, "创建退款订单失败", null, null));
-			String channelId = payOrder.getString("channelId");
-			_log.info("请求退款渠道,ID:{}", channelId);
-			switch (channelId) {
+			String channelName = refundOrder.getString("channelName");
+			_log.info("请求退款渠道,ID:{}", channelName);
+			switch (channelName) {
 
-			case PayConstants.PAY_CHANNEL_WX_JSAPI:// 微信的JSAPI支付
+			case PayConstants.PayType.PAY_TYPE_WX:// 微信的JSAPI支付
 				return payWxServiceClient
-						.doWxRefundOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "refundOrder" },
-								new Object[] { PayConstants.PAY_CHANNEL_WX_JSAPI, refundOrder }));
-
+						.doWxRefundReq(HaJsonFormat.getJsonParam( "refundOrder", refundOrder ));
+			case PayConstants.PayType.PAY_TYPE_ALIPAY:
+				return payAlipayServiceClient
+						.doAlipayRefundOrderReq(HaJsonFormat.getJsonParam( "refundOrder", refundOrder ));
 			default:
 				return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL,
-						"不支持的支付渠道类型[channelId=" + channelId + "]", null, null));
+						"不支持的支付渠道类型[channelName=" + channelName + "]", null, null));
 			}
 		} catch (Exception e) {
 			_log.error(e, "");
@@ -169,19 +130,19 @@ public class PayOrderController extends PayBaseController {
 			case PayConstants.PAY_CHANNEL_WX_JSAPI:// 微信的JSAPI支付
 				return payWxServiceClient
 						.doWxUnifiedOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "payOrder" },
-								new Object[] { PayConstants.PAY_CHANNEL_WX_JSAPI, payOrder }));
+								new Object[] { PayConstants.WxConstant.TRADE_TYPE_JSPAI, payOrder }));
 			case PayConstants.PAY_CHANNEL_WX_MWEB:// 微信的H5支付
 				return payWxServiceClient
 						.doWxUnifiedOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "payOrder" },
-								new Object[] { PayConstants.PAY_CHANNEL_WX_MWEB, payOrder }));
+								new Object[] { PayConstants.WxConstant.TRADE_TYPE_MWEB, payOrder }));
 			case PayConstants.PAY_CHANNEL_WX_APP:// 微信的APP支付
 				return payWxServiceClient
 						.doWxUnifiedOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "payOrder" },
-								new Object[] { PayConstants.PAY_CHANNEL_WX_APP, payOrder }));
+								new Object[] { PayConstants.WxConstant.TRADE_TYPE_APP, payOrder }));
 			case PayConstants.PAY_CHANNEL_WX_NATIVE:// 微信的H5支付
 				return payWxServiceClient
 						.doWxUnifiedOrderReq(HaJsonFormat.getJsonParam(new String[] { "tradeType", "payOrder" },
-								new Object[] { PayConstants.PAY_CHANNEL_WX_NATIVE, payOrder }));
+								new Object[] { PayConstants.WxConstant.TRADE_TYPE_NATIVE, payOrder }));
 			case PayConstants.PAY_CHANNEL_ALIPAY_WAP:
 				return payAlipayServiceClient.doAlipayWapReq(HaPayUtil.makeParamJson("payOrder", payOrder));
 			case PayConstants.PAY_CHANNEL_ALIPAY_MOBILE:
@@ -198,57 +159,6 @@ public class PayOrderController extends PayBaseController {
 			_log.error(e, "");
 			return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, "支付中心系统异常", null, null));
 		}
-	}
-
-	private Object validateWxBillParams(JSONObject params) {
-		// 验证请求参数,参数有问题返回错误提示
-		String errorMessage;
-		String mchId = params.getString("mchId"); // 商户ID
-		String channelId = params.getString("channelId"); // 渠道ID号
-		String bill_date = params.getString("bill_date"); // 查询日期，类似"20171102"
-		String bill_type = params.getString("bill_type");
-		// 查询类型ALL，返回当日所有订单信息，默认值 SUCCESS，返回当日成功支付的订单
-		// REFUND，返回当日退款订单
-		// RECHARGE_REFUND，返回当日充值退款订单（相比其他对账单多一栏“返还手续费”）
-		String sign = params.getString("sign"); // 签名
-		// 验证请求参数有效性（必选项）
-		if (StringUtils.isBlank(mchId)) {
-			errorMessage = "request params[mchId] error.";
-			return errorMessage;
-		}
-		if (StringUtils.isBlank(channelId)) {
-			errorMessage = "request params[channelId] error.";
-			return errorMessage;
-		}
-		if (StringUtils.isBlank(bill_date)) {
-			errorMessage = "request params[bill_date] error.";
-			return errorMessage;
-		}
-		String[] typeArray = { "ALL", "SUCCESS", "REFUND", "RECHARGE_REFUND" };
-		if (StringUtils.isBlank(bill_type) || (Arrays.binarySearch(typeArray, bill_type) == -1)) {
-			errorMessage = "request params[bill_type] error.";
-			return errorMessage;
-		}
-		// 签名信息
-		if (StringUtils.isEmpty(sign)) {
-			errorMessage = "request params[sign] error.";
-			return errorMessage;
-		}
-
-		// 验证商户信息和签名
-		Object valResult = validateMchInfoParams(params);
-		if (valResult instanceof String) {
-			errorMessage = valResult.toString();
-			return errorMessage;
-		}
-		// 验证参数通过,返回JSONObject对象
-		JSONObject wxBillObject = new JSONObject();
-		wxBillObject.put("mchId", mchId);
-		wxBillObject.put("channelId", channelId);
-		wxBillObject.put("bill_date", bill_date);
-		wxBillObject.put("bill_type", bill_type);
-		return wxBillObject;
-
 	}
 
 	/**
@@ -302,10 +212,17 @@ public class PayOrderController extends PayBaseController {
 		JSONObject refundOrder = new JSONObject();
 		refundOrder.put("refundOrderId", HaSerial.getRefund());
 		refundOrder.put("payOrderId", PayOrderId);
-		// refundOrder.put("channelPayOrderNo", "");
+		refundOrder.put("channelPayOrderNo", payOrder.get("channelOrderNo"));
+		refundOrder.put("mchRefundNo", payOrder.get("mchOrderNo"));
 		refundOrder.put("mchId", mchId);
+		refundOrder.put("payAmount", payOrder.get("amount"));
 		refundOrder.put("refundAmount", RefundAmount);
 		refundOrder.put("channelId", payOrder.get("channelId"));
+		if(payOrder.get("channelId").toString().indexOf(PayConstants.PayType.PAY_TYPE_WX)!=-1) {
+			refundOrder.put("channelName", PayConstants.PayType.PAY_TYPE_WX);
+		}else if(payOrder.get("channelId").toString().indexOf(PayConstants.PayType.PAY_TYPE_ALIPAY)!=-1) {
+			refundOrder.put("channelName", PayConstants.PayType.PAY_TYPE_ALIPAY);
+		}
 		return refundOrder;
 	}
 

@@ -65,4 +65,46 @@ public class PayAlipayServiceClient {
     public String doAlipayQrReqFallback(String jsonParam) {
         return "error";
     }
+    
+    /**
+     * 处理支付宝退款
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doAlipayRefundOrderReqFallback")
+    public String doAlipayRefundOrderReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYALIPAYSERVICE/pay/alipay/refund?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doAlipayRefundOrderReqFallback(String jsonParam) {
+        return "error";
+    }
+    
+    /**
+     * 获取对帐单
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doAlipayBillReqFallback")
+    public String doAlipayBillReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYALIPAYSERVICE/pay/alipay/bill?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doAlipayBillReqFallback(String jsonParam) {
+        return "error";
+    }
+    
+    /**
+     * 提交转帐
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doAlipayEntpayReqFallback")
+    public String doAlipayEntpayReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYALIPAYSERVICE/pay/alipay/entpay?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doAlipayEntpayReqFallback(String jsonParam) {
+        return "error";
+    }
 }

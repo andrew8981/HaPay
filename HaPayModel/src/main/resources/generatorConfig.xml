@@ -53,7 +53,7 @@
 
         <!-- 需要映射的表 -->
         <!-- <table tableName="ha_wx_bill" domainObjectName="WxBill"><property name="useActualColumnNames" value="true" /></table> -->
-        <table tableName="ha_wx_bill_day" domainObjectName="WxBillDay"><property name="useActualColumnNames" value="true" /></table>
+        <table tableName="ha_entpay_order" domainObjectName="EntpayOrder"><property name="useActualColumnNames" value="true" /></table>
         <!-- <table tableName="ha_goods_order" domainObjectName="GoodsOrder"><property name="useActualColumnNames" value="true" /></table>
         <table tableName="ha_iap_receipt" domainObjectName="IapReceipt"><property name="useActualColumnNames" value="true" /></table>
         <table tableName="ha_mch_info" domainObjectName="MchInfo"><property name="useActualColumnNames" value="true" /></table>

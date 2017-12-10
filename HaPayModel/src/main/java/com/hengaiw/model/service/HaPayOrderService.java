@@ -82,6 +82,17 @@ public class HaPayOrderService {
         return payOrderMapper.updateByExampleSelective(payOrder, example);
     }
 
+    public int updateStatus4Refund(String payOrderId) {
+    		PayOrder payOrder = new PayOrder();
+        payOrder.setPayOrderId(payOrderId);
+        payOrder.setStatus(PayConstants.PAY_STATUS_REFUND);
+        PayOrderExample example = new PayOrderExample();
+        PayOrderExample.Criteria criteria = example.createCriteria();
+        criteria.andPayOrderIdEqualTo(payOrderId);
+        criteria.andStatusEqualTo(PayConstants.PAY_STATUS_COMPLETE);
+        return payOrderMapper.updateByExampleSelective(payOrder, example);
+    	
+    }
     public int updateNotify(String payOrderId, byte count) {
         PayOrder newPayOrder = new PayOrder();
         // TODO 并发下次数问题待解决

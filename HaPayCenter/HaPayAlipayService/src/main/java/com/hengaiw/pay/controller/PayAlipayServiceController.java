@@ -1,5 +1,6 @@
 package com.hengaiw.pay.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -17,14 +18,18 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.domain.AlipayTradePagePayModel;
 import com.alipay.api.domain.AlipayTradePrecreateModel;
+import com.alipay.api.domain.AlipayTradeRefundModel;
 import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
+import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.hengaiw.model.dao.model.MchInfo;
 import com.hengaiw.model.dao.model.PayChannel;
 import com.hengaiw.model.dao.model.PayOrder;
+import com.hengaiw.model.dao.model.RefundOrder;
 import com.hengaiw.model.service.MchInfoService;
 import com.hengaiw.model.service.PayChannelService;
 import com.hengaiw.pay.config.AlipayConfig;
@@ -311,4 +316,49 @@ public class PayAlipayServiceController {
         return HaPayUtil.makeRetData(map, resKey);
     }
 
+    @RequestMapping(value = "/refund")
+    public String doAliRefundReq(String jsonParam) {
+        String logPrefix = "【支付宝退款】";
+        JSONObject paramObj = JSON.parseObject(new String(HaBase64.decode(jsonParam)));
+		RefundOrder refundOrder = paramObj.getObject("refundOrder", RefundOrder.class);
+		String mchId = refundOrder.getMchId();
+		String channelId = refundOrder.getChannelId();
+		MchInfo mchInfo = mchInfoService.selectByMchId(mchId);
+		_log.info("{}获取商户信息:mchInfo={}", logPrefix, JSON.toJSON(mchInfo));
+		String resKey = mchInfo == null ? "" : mchInfo.getResKey();
+		if ("".equals(resKey))
+			return HaPayUtil.makeRetFail(HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_FAIL, "",
+					PayConstants.RETURN_VALUE_FAIL, PayEnum.ERR_0001));
+		PayChannel payChannel = payChannelService.selectPayChannel(channelId, mchId);
+		_log.info("{}获取通道信息:payChannel={}", logPrefix, JSON.toJSON(payChannel));
+        
+        alipayConfig.init(payChannel.getParam());
+        AlipayClient client = new DefaultAlipayClient(alipayConfig.getUrl(), alipayConfig.getApp_id(), alipayConfig.getRsa_private_key(), AlipayConfig.FORMAT, AlipayConfig.CHARSET, alipayConfig.getAlipay_public_key(), AlipayConfig.SIGNTYPE);
+        AlipayTradeRefundRequest request = new AlipayTradeRefundRequest();
+        AlipayTradeRefundModel model = new AlipayTradeRefundModel();
+        model.setOutTradeNo(refundOrder.getPayOrderId());
+        model.setTradeNo(refundOrder.getChannelPayOrderNo());
+        model.setOutRequestNo(refundOrder.getRefundOrderId());
+        model.setRefundAmount(AmountUtil.convertCent2Dollar(refundOrder.getRefundAmount().toString()));
+        model.setRefundReason("正常退款");
+        request.setBizModel(model);
+        Map<String, Object> map = HaPayUtil.makeRetMap(PayConstants.RETURN_VALUE_SUCCESS, "", PayConstants.RETURN_VALUE_SUCCESS, null);
+        map.put("refundOrderId", refundOrder.getRefundOrderId());
+        map.put("isSuccess", false);
+        try {
+            AlipayTradeRefundResponse response = client.execute(request);
+            if(response.isSuccess()){
+                map.put("isSuccess", true);
+                map.put("channelOrderNo", response.getTradeNo());
+            }else {
+                _log.info("{}返回失败", logPrefix);
+                _log.info("sub_code:{},sub_msg:{}", response.getSubCode(), response.getSubMsg());
+                map.put("channelErrCode", response.getSubCode());
+                map.put("channelErrMsg", response.getSubMsg());
+            }
+        } catch (AlipayApiException e) {
+            _log.error(e, "");
+        }
+        return HaPayUtil.makeRetData(map, resKey);
+}
 }

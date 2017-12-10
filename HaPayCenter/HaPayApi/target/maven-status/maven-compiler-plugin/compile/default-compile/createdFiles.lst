@@ -1,4 +1,6 @@
+com/hengaiw/api/controller/PayEntpayController.class
 com/hengaiw/api/util/CalendarUtil.class
+com/hengaiw/api/controller/PayBillController.class
 com/hengaiw/api/util/wx/ErrCode.class
 com/hengaiw/api/util/wx/JEEWeiXinX509TrustManager.class
 com/hengaiw/api/util/wx/OAuthAccessToken.class
@@ -12,11 +14,9 @@ com/hengaiw/api/util/wx/WxApi.class
 com/hengaiw/api/util/Constant.class
 com/hengaiw/api/util/wx/WxApiClient.class
 com/hengaiw/api/util/wx/JSTicket.class
-com/hengaiw/api/controller/WxApiController.class
 com/hengaiw/PayApi.class
 com/hengaiw/api/util/DateUtil.class
 com/hengaiw/api/util/wx/AccessToken.class
-com/hengaiw/api/controller/PayChannelController.class
 com/hengaiw/api/controller/PayOrderController.class
 com/hengaiw/api/util/wx/HttpMethod.class
 com/hengaiw/api/serviceclient/PayBaseServiceClient.class

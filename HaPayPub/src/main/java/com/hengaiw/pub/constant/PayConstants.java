@@ -24,6 +24,7 @@ public class PayConstants {
 	public final static byte PAY_STATUS_PAYING = 1; // 支付中
 	public final static byte PAY_STATUS_SUCCESS = 2; // 支付成功
 	public final static byte PAY_STATUS_COMPLETE = 3; // 业务完成
+	public final static byte PAY_STATUS_REFUND = 4; // 已申请退款
 	public final static byte TRANS_STATUS_INIT = 0; // 初始态
 	public final static byte TRANS_STATUS_TRANING = 1; // 转账中
 	public final static byte TRANS_STATUS_SUCCESS = 2; // 成功
@@ -54,5 +55,10 @@ public class PayConstants {
 		public final static String TRADE_STATUS_CLOSED = "TRADE_CLOSED"; // 交易关闭
 		public final static String TRADE_STATUS_SUCCESS = "TRADE_SUCCESS"; // 交易成功
 		public final static String TRADE_STATUS_FINISHED = "TRADE_FINISHED"; // 交易成功且结束
+	}
+	
+	public static class PayType{
+		public final static String PAY_TYPE_WX="WX";//支付类型为微信
+		public final static String PAY_TYPE_ALIPAY="ALIPAY";//支付类型为支付宝
 	}
 }

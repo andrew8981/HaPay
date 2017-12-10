@@ -13,6 +13,8 @@ public class HaSerial {
 	private static String trans_seq_prefix = "T";
 	private static AtomicLong refund_seq = new AtomicLong(0L);
 	private static String refund_seq_prefix = "R";
+	private static AtomicLong entpay_seq = new AtomicLong(0L);
+	private static String entpay_seq_prefix = "E";
 	private static String node = "00";
 	
 
@@ -26,6 +28,10 @@ public class HaSerial {
 
 	public static String getRefund() {
 		return getSeq(refund_seq_prefix, refund_seq);
+	}
+	
+	public static String getEntpay() {
+		return getSeq(entpay_seq_prefix, entpay_seq);
 	}
 	
 	private static String getSeq(String prefix, AtomicLong seq) {

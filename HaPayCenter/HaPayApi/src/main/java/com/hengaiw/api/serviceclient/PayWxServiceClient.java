@@ -30,12 +30,12 @@ public class PayWxServiceClient {
      * @param jsonParam
      * @return
      */
-    @HystrixCommand(fallbackMethod = "doWxRefundOrderReqFallback")
-    public String doWxRefundOrderReq(String jsonParam) {
-        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/refundOrder?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    @HystrixCommand(fallbackMethod = "doWxRefundReqFallback")
+    public String doWxRefundReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/refund?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
     }
 
-    public String doWxRefundOrderReqFallback(String jsonParam) {
+    public String doWxRefundReqFallback(String jsonParam) {
         return "error";
     }
 
@@ -50,6 +50,20 @@ public class PayWxServiceClient {
     }
 
     public String doWxBillReqFallback(String jsonParam) {
+        return "error";
+    }
+    
+    /**
+     * 申请转帐
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "doWxEntpayReqFallback")
+    public String doWxEntpayReq(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYWXSERVICE/pay/wx/entpay?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String doWxEntpayReqFallback(String jsonParam) {
         return "error";
     }
 }

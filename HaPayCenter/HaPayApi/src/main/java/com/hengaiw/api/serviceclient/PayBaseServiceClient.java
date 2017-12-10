@@ -57,6 +57,20 @@ public class PayBaseServiceClient {
     }
 
     
+    /**
+     * 创建转帐订单
+     * @param jsonParam
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "createEntpayOrderFallback")
+    public String createEntpayOrder(String jsonParam) {
+        return restTemplate.getForEntity("http://HAPAYBASESERVICE/order/entpay?jsonParam=" + HaBase64.encode(jsonParam.getBytes()), String.class).getBody();
+    }
+
+    public String createEntpayOrderFallback(String jsonParam) {
+        return "error";
+    }
+    
     
     /**
      * 查询商户信息

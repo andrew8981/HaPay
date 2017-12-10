@@ -47,6 +47,13 @@ public class RefundOrder implements Serializable {
     private String channelId;
 
     /**
+     * 渠道名称
+     *
+     * @mbg.generated
+     */
+    private String channelName;
+
+    /**
      * 支付金额,单位分
      *
      * @mbg.generated
@@ -444,6 +451,7 @@ public class RefundOrder implements Serializable {
             && (this.getMchId() == null ? other.getMchId() == null : this.getMchId().equals(other.getMchId()))
             && (this.getMchRefundNo() == null ? other.getMchRefundNo() == null : this.getMchRefundNo().equals(other.getMchRefundNo()))
             && (this.getChannelId() == null ? other.getChannelId() == null : this.getChannelId().equals(other.getChannelId()))
+            && (this.getChannelName() == null ? other.getChannelName() == null : this.getChannelName().equals(other.getChannelName()))
             && (this.getPayAmount() == null ? other.getPayAmount() == null : this.getPayAmount().equals(other.getPayAmount()))
             && (this.getRefundAmount() == null ? other.getRefundAmount() == null : this.getRefundAmount().equals(other.getRefundAmount()))
             && (this.getCurrency() == null ? other.getCurrency() == null : this.getCurrency().equals(other.getCurrency()))
@@ -478,6 +486,7 @@ public class RefundOrder implements Serializable {
         result = prime * result + ((getMchId() == null) ? 0 : getMchId().hashCode());
         result = prime * result + ((getMchRefundNo() == null) ? 0 : getMchRefundNo().hashCode());
         result = prime * result + ((getChannelId() == null) ? 0 : getChannelId().hashCode());
+        result = prime * result + ((getChannelName() == null) ? 0 : getChannelName().hashCode());
         result = prime * result + ((getPayAmount() == null) ? 0 : getPayAmount().hashCode());
         result = prime * result + ((getRefundAmount() == null) ? 0 : getRefundAmount().hashCode());
         result = prime * result + ((getCurrency() == null) ? 0 : getCurrency().hashCode());
@@ -502,4 +511,12 @@ public class RefundOrder implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
 }

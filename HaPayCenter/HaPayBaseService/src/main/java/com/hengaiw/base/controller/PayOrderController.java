@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hengaiw.model.dao.model.EntpayOrder;
 import com.hengaiw.model.dao.model.MchInfo;
 import com.hengaiw.model.dao.model.PayOrder;
 import com.hengaiw.model.dao.model.RefundOrder;
+import com.hengaiw.model.service.EntpayOrderService;
 import com.hengaiw.model.service.HaPayOrderService;
 import com.hengaiw.model.service.RefundOrderService;
 import com.hengaiw.pub.constant.PayReturnCodeEnum;
@@ -33,6 +35,9 @@ public class PayOrderController {
 	@Autowired
 	private RefundOrderService refundOrderService;
 
+	@Autowired
+	private EntpayOrderService entpayOrderService;
+	
 	/**
 	 * 查询订单信息接口
 	 * @param jsonParam
@@ -101,6 +106,30 @@ public class PayOrderController {
 			_log.info("{}添加退款商户号参数{}",logPre,refundOrder.getMchId());
 			int result = refundOrderService.createRefundOrder(refundOrder);
 			_log.info("====== 结束添加订单信息请求 ======");
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_SUCCESS, JSON.toJSON(result));
+		} catch (Exception e) {
+			_log.error(e.getMessage());
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000001);
+		}
+	}
+	
+	/**
+	 * 创建转帐订单
+	 * @param jsonParam
+	 * @return
+	 */
+	@RequestMapping(value = "/entpay")
+	public String createEntpayOrder(@RequestParam String jsonParam) {
+		String logPre = "【添加转帐订单信息】";
+		_log.info("====== 开始添加转帐订单信息请求 ======");
+		if (StringUtils.isBlank(jsonParam)) {
+			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_ERR_000002);
+		}
+		try {
+			_log.info("{}添加转帐订单参数{}",logPre,new String(HaBase64.decode(jsonParam)));
+			EntpayOrder entpayOrder = JSON.parseObject(new String(HaBase64.decode(jsonParam)), EntpayOrder.class);
+			int result = entpayOrderService.createEntpayOrder(entpayOrder);
+			_log.info("====== 结束添加转帐订单信息请求 ======");
 			return HaPayUtil.createRetJson(PayReturnCodeEnum.PAY_SUCCESS, JSON.toJSON(result));
 		} catch (Exception e) {
 			_log.error(e.getMessage());
