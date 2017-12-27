@@ -35,6 +35,7 @@ import com.hengaiw.pub.utils.HaLog;
 import com.hengaiw.pub.utils.HaPayUtil;
 import com.hengaiw.pub.utils.IPUtility;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -237,6 +238,7 @@ public class PayWxServiceController {
 	@RequestMapping(value = "/unifiedOrder")
 	public String doUnifiedOrderReq(@RequestParam String jsonParam) {
 		try {
+			_log.info("{} >>> 下单参数", jsonParam);
 			JSONObject paramObj = JSON.parseObject(new String(HaBase64.decode(jsonParam)));
 			PayOrder payOrder = paramObj.getObject("payOrder", PayOrder.class);
 			String tradeType = paramObj.getString("tradeType");
@@ -362,8 +364,9 @@ public class PayWxServiceController {
 			productId = JSON.parseObject(payOrder.getExtra()).getString("productId");
 		String limitPay = null;
 		String openId = null;
-		if (tradeType.equals(PayConstants.WxConstant.TRADE_TYPE_JSPAI))
+		if (tradeType.equals(PayConstants.WxConstant.TRADE_TYPE_JSPAI)) {
 			openId = JSON.parseObject(payOrder.getExtra()).getString("openId");
+		}
 		String sceneInfo = null;
 		if (tradeType.equals(PayConstants.WxConstant.TRADE_TYPE_MWEB))
 			sceneInfo = JSON.parseObject(payOrder.getExtra()).getString("sceneInfo");
@@ -371,6 +374,16 @@ public class PayWxServiceController {
 		WxPayUnifiedOrderRequest request = new WxPayUnifiedOrderRequest();
 		request.setDeviceInfo(deviceInfo);
 		request.setBody(body);
+		if(!StringUtils.isEmpty(wxPayConfig.getSubMchId())) {
+			request.setSubMchId(wxPayConfig.getSubMchId());
+		}
+		if(!StringUtils.isEmpty(wxPayConfig.getSubAppId())) {
+			request.setSubAppId(wxPayConfig.getSubAppId());
+     		request.setSubOpenid(openId);
+		}else {
+			request.setOpenid(openId);
+		}
+		//request.setOpenid("oZ2FfwvgX8o5KoImIG8h6IVuvxB8");
 		request.setDetail(detail);
 		request.setAttach(attach);
 		request.setOutTradeNo(outTradeNo);
@@ -384,7 +397,7 @@ public class PayWxServiceController {
 		request.setTradeType(tradeType);
 		request.setProductId(productId);
 		request.setLimitPay(limitPay);
-		request.setOpenid(openId);
+		
 		request.setSceneInfo(sceneInfo);
 		_log.info("统一下单参数:{}", JSON.toJSONString(request));
 		return request;
@@ -409,6 +422,12 @@ public class PayWxServiceController {
 		WxPayRefundRequest request = new WxPayRefundRequest();
 		request.setOutRefundNo(outRefundNo);
 		request.setOutTradeNo(outTradeNo);
+		if(!StringUtils.isEmpty(wxPayConfig.getSubMchId())) {
+			request.setSubMchId(wxPayConfig.getSubMchId());
+		}
+		if(!StringUtils.isEmpty(wxPayConfig.getSubAppId())) {
+			request.setSubAppId(wxPayConfig.getSubAppId());
+		}
 		// request.setRefundAccount(refundAccount);
 		request.setRefundDesc(refundDesc);
 		request.setRefundFee(refundFee);

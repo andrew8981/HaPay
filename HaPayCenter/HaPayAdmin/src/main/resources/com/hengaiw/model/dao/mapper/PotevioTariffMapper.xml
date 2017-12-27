@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hengaiw.model.dao.mapper.PotevioTariffMapper">
+  <resultMap id="BaseResultMap" type="com.hengaiw.model.dao.model.PotevioTariff">
+    <id column="tariff_id" jdbcType="INTEGER" property="tariff_id" />
+    <result column="tariff_value" jdbcType="VARCHAR" property="tariff_value" />
+    <result column="tariff_type" jdbcType="VARCHAR" property="tariff_type" />
+    <result column="tariff_app" jdbcType="VARCHAR" property="tariff_app" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.hengaiw.model.dao.model.PotevioTariff">
+    <result column="tariff_explain" jdbcType="LONGVARCHAR" property="tariff_explain" />
+    <result column="summary" jdbcType="LONGVARCHAR" property="summary" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tariff_id, tariff_value, tariff_type, tariff_app
+  </sql>
+  <sql id="Blob_Column_List">
+    tariff_explain, summary
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.hengaiw.model.dao.model.PotevioTariffExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from potevio_tariff
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.hengaiw.model.dao.model.PotevioTariffExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from potevio_tariff
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from potevio_tariff
+    where tariff_id = #{tariff_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from potevio_tariff
+    where tariff_id = #{tariff_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hengaiw.model.dao.model.PotevioTariffExample">
+    delete from potevio_tariff
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hengaiw.model.dao.model.PotevioTariff">
+    insert into potevio_tariff (tariff_id, tariff_value, tariff_type, 
+      tariff_app, tariff_explain, summary
+      )
+    values (#{tariff_id,jdbcType=INTEGER}, #{tariff_value,jdbcType=VARCHAR}, #{tariff_type,jdbcType=VARCHAR}, 
+      #{tariff_app,jdbcType=VARCHAR}, #{tariff_explain,jdbcType=LONGVARCHAR}, #{summary,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengaiw.model.dao.model.PotevioTariff">
+    insert into potevio_tariff
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tariff_id != null">
+        tariff_id,
+      </if>
+      <if test="tariff_value != null">
+        tariff_value,
+      </if>
+      <if test="tariff_type != null">
+        tariff_type,
+      </if>
+      <if test="tariff_app != null">
+        tariff_app,
+      </if>
+      <if test="tariff_explain != null">
+        tariff_explain,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tariff_id != null">
+        #{tariff_id,jdbcType=INTEGER},
+      </if>
+      <if test="tariff_value != null">
+        #{tariff_value,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_type != null">
+        #{tariff_type,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_app != null">
+        #{tariff_app,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_explain != null">
+        #{tariff_explain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hengaiw.model.dao.model.PotevioTariffExample" resultType="java.lang.Long">
+    select count(*) from potevio_tariff
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update potevio_tariff
+    <set>
+      <if test="record.tariff_id != null">
+        tariff_id = #{record.tariff_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.tariff_value != null">
+        tariff_value = #{record.tariff_value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tariff_type != null">
+        tariff_type = #{record.tariff_type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tariff_app != null">
+        tariff_app = #{record.tariff_app,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tariff_explain != null">
+        tariff_explain = #{record.tariff_explain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.summary != null">
+        summary = #{record.summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update potevio_tariff
+    set tariff_id = #{record.tariff_id,jdbcType=INTEGER},
+      tariff_value = #{record.tariff_value,jdbcType=VARCHAR},
+      tariff_type = #{record.tariff_type,jdbcType=VARCHAR},
+      tariff_app = #{record.tariff_app,jdbcType=VARCHAR},
+      tariff_explain = #{record.tariff_explain,jdbcType=LONGVARCHAR},
+      summary = #{record.summary,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update potevio_tariff
+    set tariff_id = #{record.tariff_id,jdbcType=INTEGER},
+      tariff_value = #{record.tariff_value,jdbcType=VARCHAR},
+      tariff_type = #{record.tariff_type,jdbcType=VARCHAR},
+      tariff_app = #{record.tariff_app,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengaiw.model.dao.model.PotevioTariff">
+    update potevio_tariff
+    <set>
+      <if test="tariff_value != null">
+        tariff_value = #{tariff_value,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_type != null">
+        tariff_type = #{tariff_type,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_app != null">
+        tariff_app = #{tariff_app,jdbcType=VARCHAR},
+      </if>
+      <if test="tariff_explain != null">
+        tariff_explain = #{tariff_explain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where tariff_id = #{tariff_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hengaiw.model.dao.model.PotevioTariff">
+    update potevio_tariff
+    set tariff_value = #{tariff_value,jdbcType=VARCHAR},
+      tariff_type = #{tariff_type,jdbcType=VARCHAR},
+      tariff_app = #{tariff_app,jdbcType=VARCHAR},
+      tariff_explain = #{tariff_explain,jdbcType=LONGVARCHAR},
+      summary = #{summary,jdbcType=LONGVARCHAR}
+    where tariff_id = #{tariff_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengaiw.model.dao.model.PotevioTariff">
+    update potevio_tariff
+    set tariff_value = #{tariff_value,jdbcType=VARCHAR},
+      tariff_type = #{tariff_type,jdbcType=VARCHAR},
+      tariff_app = #{tariff_app,jdbcType=VARCHAR}
+    where tariff_id = #{tariff_id,jdbcType=INTEGER}
+  </update>
+</mapper>

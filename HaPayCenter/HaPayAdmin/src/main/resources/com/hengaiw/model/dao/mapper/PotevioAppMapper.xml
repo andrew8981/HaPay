@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hengaiw.model.dao.mapper.PotevioAppMapper">
+  <resultMap id="BaseResultMap" type="com.hengaiw.model.dao.model.PotevioApp">
+    <id column="app_id" jdbcType="INTEGER" property="app_id" />
+    <result column="app_sn" jdbcType="VARCHAR" property="app_sn" />
+    <result column="app_name" jdbcType="VARCHAR" property="app_name" />
+    <result column="app_appkey" jdbcType="VARCHAR" property="app_appkey" />
+    <result column="app_apisecret" jdbcType="VARCHAR" property="app_apisecret" />
+    <result column="app_uuid" jdbcType="VARCHAR" property="app_uuid" />
+    <result column="app_purchaseid" jdbcType="VARCHAR" property="app_purchaseid" />
+    <result column="app_price" jdbcType="DECIMAL" property="app_price" />
+    <result column="app_status" jdbcType="BIT" property="app_status" />
+    <result column="app_addtime" jdbcType="TIMESTAMP" property="app_addtime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    app_id, app_sn, app_name, app_appkey, app_apisecret, app_uuid, app_purchaseid, app_price, 
+    app_status, app_addtime
+  </sql>
+  <select id="selectByExample" parameterType="com.hengaiw.model.dao.model.PotevioAppExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from potevio_app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from potevio_app
+    where app_id = #{app_id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from potevio_app
+    where app_id = #{app_id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hengaiw.model.dao.model.PotevioAppExample">
+    delete from potevio_app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hengaiw.model.dao.model.PotevioApp">
+    insert into potevio_app (app_id, app_sn, app_name, 
+      app_appkey, app_apisecret, app_uuid, 
+      app_purchaseid, app_price, app_status, 
+      app_addtime)
+    values (#{app_id,jdbcType=INTEGER}, #{app_sn,jdbcType=VARCHAR}, #{app_name,jdbcType=VARCHAR}, 
+      #{app_appkey,jdbcType=VARCHAR}, #{app_apisecret,jdbcType=VARCHAR}, #{app_uuid,jdbcType=VARCHAR}, 
+      #{app_purchaseid,jdbcType=VARCHAR}, #{app_price,jdbcType=DECIMAL}, #{app_status,jdbcType=BIT}, 
+      #{app_addtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengaiw.model.dao.model.PotevioApp">
+    insert into potevio_app
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="app_id != null">
+        app_id,
+      </if>
+      <if test="app_sn != null">
+        app_sn,
+      </if>
+      <if test="app_name != null">
+        app_name,
+      </if>
+      <if test="app_appkey != null">
+        app_appkey,
+      </if>
+      <if test="app_apisecret != null">
+        app_apisecret,
+      </if>
+      <if test="app_uuid != null">
+        app_uuid,
+      </if>
+      <if test="app_purchaseid != null">
+        app_purchaseid,
+      </if>
+      <if test="app_price != null">
+        app_price,
+      </if>
+      <if test="app_status != null">
+        app_status,
+      </if>
+      <if test="app_addtime != null">
+        app_addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="app_id != null">
+        #{app_id,jdbcType=INTEGER},
+      </if>
+      <if test="app_sn != null">
+        #{app_sn,jdbcType=VARCHAR},
+      </if>
+      <if test="app_name != null">
+        #{app_name,jdbcType=VARCHAR},
+      </if>
+      <if test="app_appkey != null">
+        #{app_appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="app_apisecret != null">
+        #{app_apisecret,jdbcType=VARCHAR},
+      </if>
+      <if test="app_uuid != null">
+        #{app_uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="app_purchaseid != null">
+        #{app_purchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="app_price != null">
+        #{app_price,jdbcType=DECIMAL},
+      </if>
+      <if test="app_status != null">
+        #{app_status,jdbcType=BIT},
+      </if>
+      <if test="app_addtime != null">
+        #{app_addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hengaiw.model.dao.model.PotevioAppExample" resultType="java.lang.Long">
+    select count(*) from potevio_app
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update potevio_app
+    <set>
+      <if test="record.app_id != null">
+        app_id = #{record.app_id,jdbcType=INTEGER},
+      </if>
+      <if test="record.app_sn != null">
+        app_sn = #{record.app_sn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_name != null">
+        app_name = #{record.app_name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_appkey != null">
+        app_appkey = #{record.app_appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_apisecret != null">
+        app_apisecret = #{record.app_apisecret,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_uuid != null">
+        app_uuid = #{record.app_uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_purchaseid != null">
+        app_purchaseid = #{record.app_purchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.app_price != null">
+        app_price = #{record.app_price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.app_status != null">
+        app_status = #{record.app_status,jdbcType=BIT},
+      </if>
+      <if test="record.app_addtime != null">
+        app_addtime = #{record.app_addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update potevio_app
+    set app_id = #{record.app_id,jdbcType=INTEGER},
+      app_sn = #{record.app_sn,jdbcType=VARCHAR},
+      app_name = #{record.app_name,jdbcType=VARCHAR},
+      app_appkey = #{record.app_appkey,jdbcType=VARCHAR},
+      app_apisecret = #{record.app_apisecret,jdbcType=VARCHAR},
+      app_uuid = #{record.app_uuid,jdbcType=VARCHAR},
+      app_purchaseid = #{record.app_purchaseid,jdbcType=VARCHAR},
+      app_price = #{record.app_price,jdbcType=DECIMAL},
+      app_status = #{record.app_status,jdbcType=BIT},
+      app_addtime = #{record.app_addtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengaiw.model.dao.model.PotevioApp">
+    update potevio_app
+    <set>
+      <if test="app_sn != null">
+        app_sn = #{app_sn,jdbcType=VARCHAR},
+      </if>
+      <if test="app_name != null">
+        app_name = #{app_name,jdbcType=VARCHAR},
+      </if>
+      <if test="app_appkey != null">
+        app_appkey = #{app_appkey,jdbcType=VARCHAR},
+      </if>
+      <if test="app_apisecret != null">
+        app_apisecret = #{app_apisecret,jdbcType=VARCHAR},
+      </if>
+      <if test="app_uuid != null">
+        app_uuid = #{app_uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="app_purchaseid != null">
+        app_purchaseid = #{app_purchaseid,jdbcType=VARCHAR},
+      </if>
+      <if test="app_price != null">
+        app_price = #{app_price,jdbcType=DECIMAL},
+      </if>
+      <if test="app_status != null">
+        app_status = #{app_status,jdbcType=BIT},
+      </if>
+      <if test="app_addtime != null">
+        app_addtime = #{app_addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where app_id = #{app_id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengaiw.model.dao.model.PotevioApp">
+    update potevio_app
+    set app_sn = #{app_sn,jdbcType=VARCHAR},
+      app_name = #{app_name,jdbcType=VARCHAR},
+      app_appkey = #{app_appkey,jdbcType=VARCHAR},
+      app_apisecret = #{app_apisecret,jdbcType=VARCHAR},
+      app_uuid = #{app_uuid,jdbcType=VARCHAR},
+      app_purchaseid = #{app_purchaseid,jdbcType=VARCHAR},
+      app_price = #{app_price,jdbcType=DECIMAL},
+      app_status = #{app_status,jdbcType=BIT},
+      app_addtime = #{app_addtime,jdbcType=TIMESTAMP}
+    where app_id = #{app_id,jdbcType=INTEGER}
+  </update>
+</mapper>

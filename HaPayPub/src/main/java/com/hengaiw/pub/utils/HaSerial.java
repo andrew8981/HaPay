@@ -35,6 +35,10 @@ public class HaSerial {
 	}
 	
 	private static String getSeq(String prefix, AtomicLong seq) {
+//		StringBuffer sb = new StringBuffer();
+//        seq.compareAndSet(MAX, 0);
+//        numberFormat.format(seq.incrementAndGet(), sb, HELPER_POSITION);
+//        return sb.toString();
 		prefix += node;
 		return String.format("%s%s%06d", prefix, DateUtils.getCurrentTimeStrDefault(), (int) seq.getAndIncrement() % 1000000);
 	}

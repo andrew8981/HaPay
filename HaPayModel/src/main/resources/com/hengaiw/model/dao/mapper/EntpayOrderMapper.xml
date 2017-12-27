@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hengaiw.model.dao.mapper.EntpayOrderMapper">
+  <resultMap id="BaseResultMap" type="com.hengaiw.model.dao.model.EntpayOrder">
+    <id column="EntPayOrderId" jdbcType="VARCHAR" property="entPayOrderId" />
+    <result column="MchId" jdbcType="VARCHAR" property="mchId" />
+    <result column="ChannelId" jdbcType="VARCHAR" property="channelId" />
+    <result column="ChannelName" jdbcType="VARCHAR" property="channelName" />
+    <result column="Amount" jdbcType="BIGINT" property="amount" />
+    <result column="Extra" jdbcType="VARCHAR" property="extra" />
+    <result column="RemarkInfo" jdbcType="VARCHAR" property="remarkInfo" />
+    <result column="DeviceInfo" jdbcType="VARCHAR" property="deviceInfo" />
+    <result column="ClientIp" jdbcType="VARCHAR" property="clientIp" />
+    <result column="Status" jdbcType="TINYINT" property="status" />
+    <result column="PaymentNo" jdbcType="VARCHAR" property="paymentNo" />
+    <result column="EntPaySuccTime" jdbcType="BIGINT" property="entPaySuccTime" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="UpdateTime" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    EntPayOrderId, MchId, ChannelId, ChannelName, Amount, Extra, RemarkInfo, DeviceInfo, 
+    ClientIp, Status, PaymentNo, EntPaySuccTime, CreateTime, UpdateTime
+  </sql>
+  <select id="selectByExample" parameterType="com.hengaiw.model.dao.model.EntpayOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ha_entpay_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ha_entpay_order
+    where EntPayOrderId = #{entPayOrderId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from ha_entpay_order
+    where EntPayOrderId = #{entPayOrderId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hengaiw.model.dao.model.EntpayOrderExample">
+    delete from ha_entpay_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hengaiw.model.dao.model.EntpayOrder">
+    insert into ha_entpay_order (EntPayOrderId, MchId, ChannelId, 
+      ChannelName, Amount, Extra, 
+      RemarkInfo, DeviceInfo, ClientIp, 
+      Status, PaymentNo, EntPaySuccTime, 
+      CreateTime, UpdateTime)
+    values (#{entPayOrderId,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, 
+      #{channelName,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, #{extra,jdbcType=VARCHAR}, 
+      #{remarkInfo,jdbcType=VARCHAR}, #{deviceInfo,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT}, #{paymentNo,jdbcType=VARCHAR}, #{entPaySuccTime,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengaiw.model.dao.model.EntpayOrder">
+    insert into ha_entpay_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="entPayOrderId != null">
+        EntPayOrderId,
+      </if>
+      <if test="mchId != null">
+        MchId,
+      </if>
+      <if test="channelId != null">
+        ChannelId,
+      </if>
+      <if test="channelName != null">
+        ChannelName,
+      </if>
+      <if test="amount != null">
+        Amount,
+      </if>
+      <if test="extra != null">
+        Extra,
+      </if>
+      <if test="remarkInfo != null">
+        RemarkInfo,
+      </if>
+      <if test="deviceInfo != null">
+        DeviceInfo,
+      </if>
+      <if test="clientIp != null">
+        ClientIp,
+      </if>
+      <if test="status != null">
+        Status,
+      </if>
+      <if test="paymentNo != null">
+        PaymentNo,
+      </if>
+      <if test="entPaySuccTime != null">
+        EntPaySuccTime,
+      </if>
+      <if test="createTime != null">
+        CreateTime,
+      </if>
+      <if test="updateTime != null">
+        UpdateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="entPayOrderId != null">
+        #{entPayOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null">
+        #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkInfo != null">
+        #{remarkInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null">
+        #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null">
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="paymentNo != null">
+        #{paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entPaySuccTime != null">
+        #{entPaySuccTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hengaiw.model.dao.model.EntpayOrderExample" resultType="java.lang.Long">
+    select count(*) from ha_entpay_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ha_entpay_order
+    <set>
+      <if test="record.entPayOrderId != null">
+        EntPayOrderId = #{record.entPayOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchId != null">
+        MchId = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelId != null">
+        ChannelId = #{record.channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channelName != null">
+        ChannelName = #{record.channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        Amount = #{record.amount,jdbcType=BIGINT},
+      </if>
+      <if test="record.extra != null">
+        Extra = #{record.extra,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarkInfo != null">
+        RemarkInfo = #{record.remarkInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceInfo != null">
+        DeviceInfo = #{record.deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientIp != null">
+        ClientIp = #{record.clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        Status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.paymentNo != null">
+        PaymentNo = #{record.paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.entPaySuccTime != null">
+        EntPaySuccTime = #{record.entPaySuccTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null">
+        UpdateTime = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ha_entpay_order
+    set EntPayOrderId = #{record.entPayOrderId,jdbcType=VARCHAR},
+      MchId = #{record.mchId,jdbcType=VARCHAR},
+      ChannelId = #{record.channelId,jdbcType=VARCHAR},
+      ChannelName = #{record.channelName,jdbcType=VARCHAR},
+      Amount = #{record.amount,jdbcType=BIGINT},
+      Extra = #{record.extra,jdbcType=VARCHAR},
+      RemarkInfo = #{record.remarkInfo,jdbcType=VARCHAR},
+      DeviceInfo = #{record.deviceInfo,jdbcType=VARCHAR},
+      ClientIp = #{record.clientIp,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=TINYINT},
+      PaymentNo = #{record.paymentNo,jdbcType=VARCHAR},
+      EntPaySuccTime = #{record.entPaySuccTime,jdbcType=BIGINT},
+      CreateTime = #{record.createTime,jdbcType=TIMESTAMP},
+      UpdateTime = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengaiw.model.dao.model.EntpayOrder">
+    update ha_entpay_order
+    <set>
+      <if test="mchId != null">
+        MchId = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null">
+        ChannelId = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="channelName != null">
+        ChannelName = #{channelName,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        Amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="extra != null">
+        Extra = #{extra,jdbcType=VARCHAR},
+      </if>
+      <if test="remarkInfo != null">
+        RemarkInfo = #{remarkInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceInfo != null">
+        DeviceInfo = #{deviceInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null">
+        ClientIp = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        Status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="paymentNo != null">
+        PaymentNo = #{paymentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entPaySuccTime != null">
+        EntPaySuccTime = #{entPaySuccTime,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        UpdateTime = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where EntPayOrderId = #{entPayOrderId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengaiw.model.dao.model.EntpayOrder">
+    update ha_entpay_order
+    set MchId = #{mchId,jdbcType=VARCHAR},
+      ChannelId = #{channelId,jdbcType=VARCHAR},
+      ChannelName = #{channelName,jdbcType=VARCHAR},
+      Amount = #{amount,jdbcType=BIGINT},
+      Extra = #{extra,jdbcType=VARCHAR},
+      RemarkInfo = #{remarkInfo,jdbcType=VARCHAR},
+      DeviceInfo = #{deviceInfo,jdbcType=VARCHAR},
+      ClientIp = #{clientIp,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=TINYINT},
+      PaymentNo = #{paymentNo,jdbcType=VARCHAR},
+      EntPaySuccTime = #{entPaySuccTime,jdbcType=BIGINT},
+      CreateTime = #{createTime,jdbcType=TIMESTAMP},
+      UpdateTime = #{updateTime,jdbcType=TIMESTAMP}
+    where EntPayOrderId = #{entPayOrderId,jdbcType=VARCHAR}
+  </update>
+</mapper>

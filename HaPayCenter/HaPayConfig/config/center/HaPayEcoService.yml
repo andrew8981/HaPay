@@ -1,0 +1,9 @@
+server:
+  port: 8008
+
+spring:
+  profiles:
+     active: test
+
+logging:
+  file: ./logs/HaPayEcoService.log

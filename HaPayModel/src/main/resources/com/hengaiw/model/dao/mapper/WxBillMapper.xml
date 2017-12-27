@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hengaiw.model.dao.mapper.WxBillMapper">
+  <resultMap id="BaseResultMap" type="com.hengaiw.model.dao.model.WxBill">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tradetime" jdbcType="VARCHAR" property="tradetime" />
+    <result column="ghid" jdbcType="VARCHAR" property="ghid" />
+    <result column="mchid" jdbcType="VARCHAR" property="mchid" />
+    <result column="submch" jdbcType="VARCHAR" property="submch" />
+    <result column="deviceid" jdbcType="VARCHAR" property="deviceid" />
+    <result column="wxorder" jdbcType="VARCHAR" property="wxorder" />
+    <result column="bzorder" jdbcType="VARCHAR" property="bzorder" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="tradetype" jdbcType="VARCHAR" property="tradetype" />
+    <result column="tradestatus" jdbcType="VARCHAR" property="tradestatus" />
+    <result column="bank" jdbcType="VARCHAR" property="bank" />
+    <result column="currency" jdbcType="VARCHAR" property="currency" />
+    <result column="totalmoney" jdbcType="VARCHAR" property="totalmoney" />
+    <result column="redpacketmoney" jdbcType="VARCHAR" property="redpacketmoney" />
+    <result column="wxrefund" jdbcType="VARCHAR" property="wxrefund" />
+    <result column="bzrefund" jdbcType="VARCHAR" property="bzrefund" />
+    <result column="refundmoney" jdbcType="VARCHAR" property="refundmoney" />
+    <result column="redpacketrefund" jdbcType="VARCHAR" property="redpacketrefund" />
+    <result column="refundtype" jdbcType="VARCHAR" property="refundtype" />
+    <result column="refundstatus" jdbcType="VARCHAR" property="refundstatus" />
+    <result column="productname" jdbcType="VARCHAR" property="productname" />
+    <result column="bzdatapacket" jdbcType="VARCHAR" property="bzdatapacket" />
+    <result column="fee" jdbcType="VARCHAR" property="fee" />
+    <result column="rate" jdbcType="VARCHAR" property="rate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, tradetime, ghid, mchid, submch, deviceid, wxorder, bzorder, openid, tradetype, 
+    tradestatus, bank, currency, totalmoney, redpacketmoney, wxrefund, bzrefund, refundmoney, 
+    redpacketrefund, refundtype, refundstatus, productname, bzdatapacket, fee, rate
+  </sql>
+  <select id="selectByExample" parameterType="com.hengaiw.model.dao.model.WxBillExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ha_wx_bill
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ha_wx_bill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ha_wx_bill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.hengaiw.model.dao.model.WxBillExample">
+    delete from ha_wx_bill
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.hengaiw.model.dao.model.WxBill">
+    insert into ha_wx_bill (id, tradetime, ghid, 
+      mchid, submch, deviceid, 
+      wxorder, bzorder, openid, 
+      tradetype, tradestatus, bank, 
+      currency, totalmoney, redpacketmoney, 
+      wxrefund, bzrefund, refundmoney, 
+      redpacketrefund, refundtype, refundstatus, 
+      productname, bzdatapacket, fee, 
+      rate)
+    values (#{id,jdbcType=INTEGER}, #{tradetime,jdbcType=VARCHAR}, #{ghid,jdbcType=VARCHAR}, 
+      #{mchid,jdbcType=VARCHAR}, #{submch,jdbcType=VARCHAR}, #{deviceid,jdbcType=VARCHAR}, 
+      #{wxorder,jdbcType=VARCHAR}, #{bzorder,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{tradetype,jdbcType=VARCHAR}, #{tradestatus,jdbcType=VARCHAR}, #{bank,jdbcType=VARCHAR}, 
+      #{currency,jdbcType=VARCHAR}, #{totalmoney,jdbcType=VARCHAR}, #{redpacketmoney,jdbcType=VARCHAR}, 
+      #{wxrefund,jdbcType=VARCHAR}, #{bzrefund,jdbcType=VARCHAR}, #{refundmoney,jdbcType=VARCHAR}, 
+      #{redpacketrefund,jdbcType=VARCHAR}, #{refundtype,jdbcType=VARCHAR}, #{refundstatus,jdbcType=VARCHAR}, 
+      #{productname,jdbcType=VARCHAR}, #{bzdatapacket,jdbcType=VARCHAR}, #{fee,jdbcType=VARCHAR}, 
+      #{rate,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hengaiw.model.dao.model.WxBill">
+    insert into ha_wx_bill
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tradetime != null">
+        tradetime,
+      </if>
+      <if test="ghid != null">
+        ghid,
+      </if>
+      <if test="mchid != null">
+        mchid,
+      </if>
+      <if test="submch != null">
+        submch,
+      </if>
+      <if test="deviceid != null">
+        deviceid,
+      </if>
+      <if test="wxorder != null">
+        wxorder,
+      </if>
+      <if test="bzorder != null">
+        bzorder,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="tradetype != null">
+        tradetype,
+      </if>
+      <if test="tradestatus != null">
+        tradestatus,
+      </if>
+      <if test="bank != null">
+        bank,
+      </if>
+      <if test="currency != null">
+        currency,
+      </if>
+      <if test="totalmoney != null">
+        totalmoney,
+      </if>
+      <if test="redpacketmoney != null">
+        redpacketmoney,
+      </if>
+      <if test="wxrefund != null">
+        wxrefund,
+      </if>
+      <if test="bzrefund != null">
+        bzrefund,
+      </if>
+      <if test="refundmoney != null">
+        refundmoney,
+      </if>
+      <if test="redpacketrefund != null">
+        redpacketrefund,
+      </if>
+      <if test="refundtype != null">
+        refundtype,
+      </if>
+      <if test="refundstatus != null">
+        refundstatus,
+      </if>
+      <if test="productname != null">
+        productname,
+      </if>
+      <if test="bzdatapacket != null">
+        bzdatapacket,
+      </if>
+      <if test="fee != null">
+        fee,
+      </if>
+      <if test="rate != null">
+        rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tradetime != null">
+        #{tradetime,jdbcType=VARCHAR},
+      </if>
+      <if test="ghid != null">
+        #{ghid,jdbcType=VARCHAR},
+      </if>
+      <if test="mchid != null">
+        #{mchid,jdbcType=VARCHAR},
+      </if>
+      <if test="submch != null">
+        #{submch,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceid != null">
+        #{deviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="wxorder != null">
+        #{wxorder,jdbcType=VARCHAR},
+      </if>
+      <if test="bzorder != null">
+        #{bzorder,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradetype != null">
+        #{tradetype,jdbcType=VARCHAR},
+      </if>
+      <if test="tradestatus != null">
+        #{tradestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null">
+        #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="totalmoney != null">
+        #{totalmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="redpacketmoney != null">
+        #{redpacketmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="wxrefund != null">
+        #{wxrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="bzrefund != null">
+        #{bzrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="refundmoney != null">
+        #{refundmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="redpacketrefund != null">
+        #{redpacketrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="refundtype != null">
+        #{refundtype,jdbcType=VARCHAR},
+      </if>
+      <if test="refundstatus != null">
+        #{refundstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="bzdatapacket != null">
+        #{bzdatapacket,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        #{rate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.hengaiw.model.dao.model.WxBillExample" resultType="java.lang.Long">
+    select count(*) from ha_wx_bill
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ha_wx_bill
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradetime != null">
+        tradetime = #{record.tradetime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ghid != null">
+        ghid = #{record.ghid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchid != null">
+        mchid = #{record.mchid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submch != null">
+        submch = #{record.submch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deviceid != null">
+        deviceid = #{record.deviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxorder != null">
+        wxorder = #{record.wxorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bzorder != null">
+        bzorder = #{record.bzorder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.openid != null">
+        openid = #{record.openid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradetype != null">
+        tradetype = #{record.tradetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradestatus != null">
+        tradestatus = #{record.tradestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bank != null">
+        bank = #{record.bank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.currency != null">
+        currency = #{record.currency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalmoney != null">
+        totalmoney = #{record.totalmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.redpacketmoney != null">
+        redpacketmoney = #{record.redpacketmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wxrefund != null">
+        wxrefund = #{record.wxrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bzrefund != null">
+        bzrefund = #{record.bzrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundmoney != null">
+        refundmoney = #{record.refundmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="record.redpacketrefund != null">
+        redpacketrefund = #{record.redpacketrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundtype != null">
+        refundtype = #{record.refundtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refundstatus != null">
+        refundstatus = #{record.refundstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productname != null">
+        productname = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bzdatapacket != null">
+        bzdatapacket = #{record.bzdatapacket,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fee != null">
+        fee = #{record.fee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rate != null">
+        rate = #{record.rate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ha_wx_bill
+    set id = #{record.id,jdbcType=INTEGER},
+      tradetime = #{record.tradetime,jdbcType=VARCHAR},
+      ghid = #{record.ghid,jdbcType=VARCHAR},
+      mchid = #{record.mchid,jdbcType=VARCHAR},
+      submch = #{record.submch,jdbcType=VARCHAR},
+      deviceid = #{record.deviceid,jdbcType=VARCHAR},
+      wxorder = #{record.wxorder,jdbcType=VARCHAR},
+      bzorder = #{record.bzorder,jdbcType=VARCHAR},
+      openid = #{record.openid,jdbcType=VARCHAR},
+      tradetype = #{record.tradetype,jdbcType=VARCHAR},
+      tradestatus = #{record.tradestatus,jdbcType=VARCHAR},
+      bank = #{record.bank,jdbcType=VARCHAR},
+      currency = #{record.currency,jdbcType=VARCHAR},
+      totalmoney = #{record.totalmoney,jdbcType=VARCHAR},
+      redpacketmoney = #{record.redpacketmoney,jdbcType=VARCHAR},
+      wxrefund = #{record.wxrefund,jdbcType=VARCHAR},
+      bzrefund = #{record.bzrefund,jdbcType=VARCHAR},
+      refundmoney = #{record.refundmoney,jdbcType=VARCHAR},
+      redpacketrefund = #{record.redpacketrefund,jdbcType=VARCHAR},
+      refundtype = #{record.refundtype,jdbcType=VARCHAR},
+      refundstatus = #{record.refundstatus,jdbcType=VARCHAR},
+      productname = #{record.productname,jdbcType=VARCHAR},
+      bzdatapacket = #{record.bzdatapacket,jdbcType=VARCHAR},
+      fee = #{record.fee,jdbcType=VARCHAR},
+      rate = #{record.rate,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hengaiw.model.dao.model.WxBill">
+    update ha_wx_bill
+    <set>
+      <if test="tradetime != null">
+        tradetime = #{tradetime,jdbcType=VARCHAR},
+      </if>
+      <if test="ghid != null">
+        ghid = #{ghid,jdbcType=VARCHAR},
+      </if>
+      <if test="mchid != null">
+        mchid = #{mchid,jdbcType=VARCHAR},
+      </if>
+      <if test="submch != null">
+        submch = #{submch,jdbcType=VARCHAR},
+      </if>
+      <if test="deviceid != null">
+        deviceid = #{deviceid,jdbcType=VARCHAR},
+      </if>
+      <if test="wxorder != null">
+        wxorder = #{wxorder,jdbcType=VARCHAR},
+      </if>
+      <if test="bzorder != null">
+        bzorder = #{bzorder,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="tradetype != null">
+        tradetype = #{tradetype,jdbcType=VARCHAR},
+      </if>
+      <if test="tradestatus != null">
+        tradestatus = #{tradestatus,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null">
+        bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="currency != null">
+        currency = #{currency,jdbcType=VARCHAR},
+      </if>
+      <if test="totalmoney != null">
+        totalmoney = #{totalmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="redpacketmoney != null">
+        redpacketmoney = #{redpacketmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="wxrefund != null">
+        wxrefund = #{wxrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="bzrefund != null">
+        bzrefund = #{bzrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="refundmoney != null">
+        refundmoney = #{refundmoney,jdbcType=VARCHAR},
+      </if>
+      <if test="redpacketrefund != null">
+        redpacketrefund = #{redpacketrefund,jdbcType=VARCHAR},
+      </if>
+      <if test="refundtype != null">
+        refundtype = #{refundtype,jdbcType=VARCHAR},
+      </if>
+      <if test="refundstatus != null">
+        refundstatus = #{refundstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null">
+        productname = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="bzdatapacket != null">
+        bzdatapacket = #{bzdatapacket,jdbcType=VARCHAR},
+      </if>
+      <if test="fee != null">
+        fee = #{fee,jdbcType=VARCHAR},
+      </if>
+      <if test="rate != null">
+        rate = #{rate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hengaiw.model.dao.model.WxBill">
+    update ha_wx_bill
+    set tradetime = #{tradetime,jdbcType=VARCHAR},
+      ghid = #{ghid,jdbcType=VARCHAR},
+      mchid = #{mchid,jdbcType=VARCHAR},
+      submch = #{submch,jdbcType=VARCHAR},
+      deviceid = #{deviceid,jdbcType=VARCHAR},
+      wxorder = #{wxorder,jdbcType=VARCHAR},
+      bzorder = #{bzorder,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      tradetype = #{tradetype,jdbcType=VARCHAR},
+      tradestatus = #{tradestatus,jdbcType=VARCHAR},
+      bank = #{bank,jdbcType=VARCHAR},
+      currency = #{currency,jdbcType=VARCHAR},
+      totalmoney = #{totalmoney,jdbcType=VARCHAR},
+      redpacketmoney = #{redpacketmoney,jdbcType=VARCHAR},
+      wxrefund = #{wxrefund,jdbcType=VARCHAR},
+      bzrefund = #{bzrefund,jdbcType=VARCHAR},
+      refundmoney = #{refundmoney,jdbcType=VARCHAR},
+      redpacketrefund = #{redpacketrefund,jdbcType=VARCHAR},
+      refundtype = #{refundtype,jdbcType=VARCHAR},
+      refundstatus = #{refundstatus,jdbcType=VARCHAR},
+      productname = #{productname,jdbcType=VARCHAR},
+      bzdatapacket = #{bzdatapacket,jdbcType=VARCHAR},
+      fee = #{fee,jdbcType=VARCHAR},
+      rate = #{rate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
